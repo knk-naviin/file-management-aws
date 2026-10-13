@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "WriteOnlyAuditArchive",
+      "Effect": "Allow",
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/archives/audit/*"
+    },
+    {
+      "Sid": "EncryptUploadAudit",
+      "Effect": "Allow",
+      "Action": ["kms:Encrypt", "kms:GenerateDataKey"],
+      "Resource": "arn:aws:kms:REPLACE_WITH_REGION:REPLACE_WITH_ACCOUNT_ID:key/REPLACE_WITH_KEY_ID"
+    },
+    {
+      "Sid": "WriteOnlyAuditFunctionLogs",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:REPLACE_WITH_REGION:REPLACE_WITH_ACCOUNT_ID:log-group:/aws/lambda/AuditLambda:*"
+    }
+  ]
+}

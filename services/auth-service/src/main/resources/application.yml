@@ -1,0 +1,48 @@
+server:
+  port: ${SERVER_PORT:8081}
+  shutdown: graceful
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/secure_docs}
+    username: ${DB_USERNAME:secure_docs}
+    password: ${DB_PASSWORD:local-only-change-me}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: auth_service
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    schemas: auth_service
+    default-schema: auth_service
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+security:
+  jwt:
+    private-key-base64: ${JWT_PRIVATE_KEY_BASE64}
+    public-key-base64: ${JWT_PUBLIC_KEY_BASE64}
+    access-token-seconds: ${JWT_ACCESS_TOKEN_SECONDS:900}
+    refresh-token-days: ${JWT_REFRESH_TOKEN_DAYS:30}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: ${SWAGGER_ENABLED:false}
+logging:
+  structured:
+    format:
+      console: logstash

@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "WriteOnlyThisFunctionsLogs",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:REPLACE_WITH_REGION:REPLACE_WITH_ACCOUNT_ID:log-group:/aws/lambda/REPLACE_WITH_FUNCTION_NAME:*"
+    },
+    {
+      "Sid": "ReadDocumentAndWritePreviewObjects",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": [
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/documents/*",
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/thumbnails/*"
+      ]
+    },
+    {
+      "Sid": "UseOnlyTheDocumentKey",
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt", "kms:Encrypt", "kms:GenerateDataKey"],
+      "Resource": "arn:aws:kms:REPLACE_WITH_REGION:REPLACE_WITH_ACCOUNT_ID:key/REPLACE_WITH_KEY_ID"
+    }
+  ]
+}

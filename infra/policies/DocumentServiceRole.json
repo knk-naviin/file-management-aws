@@ -1,0 +1,32 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListApplicationPrefixes",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["documents/*", "archives/*", "users/*", "thumbnails/*"]
+        }
+      }
+    },
+    {
+      "Sid": "ManageApplicationObjects",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": [
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/documents/*",
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/archives/*",
+        "arn:aws:s3:::REPLACE_WITH_PRIVATE_BUCKET/users/*"
+      ]
+    },
+    {
+      "Sid": "UseOneCustomerManagedKey",
+      "Effect": "Allow",
+      "Action": ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey", "kms:DescribeKey"],
+      "Resource": "arn:aws:kms:REPLACE_WITH_REGION:REPLACE_WITH_ACCOUNT_ID:key/REPLACE_WITH_KEY_ID"
+    }
+  ]
+}

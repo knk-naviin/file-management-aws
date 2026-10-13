@@ -1,0 +1,69 @@
+server:
+  port: ${SERVER_PORT:8082}
+  shutdown: graceful
+spring:
+  application:
+    name: document-service
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 2000
+            readTimeout: 3000
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/secure_docs}
+    username: ${DB_USERNAME:secure_docs}
+    password: ${DB_PASSWORD:local-only-change-me}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: document_service
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    schemas: document_service
+    default-schema: document_service
+  servlet:
+    multipart:
+      max-file-size: ${DOCUMENTS_MAX_FILE_SIZE:8MB}
+      max-request-size: ${DOCUMENTS_MAX_REQUEST_SIZE:9MB}
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+aws:
+  region: ${AWS_REGION:us-east-1}
+  s3:
+    bucket: ${S3_BUCKET:secure-document-storage}
+    endpoint: ${S3_ENDPOINT:}
+  kms:
+    key-id: ${KMS_KEY_ID}
+    endpoint: ${KMS_ENDPOINT:}
+security:
+  jwt:
+    public-key-base64: ${JWT_PUBLIC_KEY_BASE64}
+documents:
+  max-file-bytes: ${DOCUMENTS_MAX_FILE_BYTES:8388608}
+services:
+  auth:
+    url: ${AUTH_SERVICE_URL:http://localhost:8081}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: ${SWAGGER_ENABLED:false}
+logging:
+  structured:
+    format:
+      console: logstash

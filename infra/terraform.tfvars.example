@@ -1,0 +1,5 @@
+aws_region       = "us-east-1"
+bucket_name      = "replace-with-a-globally-unique-private-bucket-name"
+backend_url      = "https://replace-with-your-reachable-spring-gateway.example.com"
+allowed_origins  = ["https://replace-with-your-frontend.example.com"]
+notification_email = ""
